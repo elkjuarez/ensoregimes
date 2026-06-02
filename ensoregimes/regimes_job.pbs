@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N regimes_job
+#PBS -A ##
+#PBS -q casper
+#PBS -l select=1:ncpus=1:mem=128GB
+#PBS -l walltime=23:59:00
+#PBS -j oe
+#PBS -o /glade/derecho/scratch/molina/mdiff_regimes.log
+
+cd "$PBS_O_WORKDIR"
+
+# Initialize conda
+source /glade/u/apps/opt/miniforge/25.11/etc/profile.d/conda.sh
+
+# Activate your personal environment
+conda activate /glade/work/molina/conda-envs/mdiff-gpuv2
+
+# Diagnostics
+echo "Running on host: $(hostname)"
+echo "Working directory: $(pwd)"
+echo "Python: $(which python)"
+echo "Data year: $YEAR"
+python --version
+
+# Run your script
+python regimescreator.py --year "$YEAR"
